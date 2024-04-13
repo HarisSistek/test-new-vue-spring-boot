@@ -36,7 +36,7 @@
 
       <b-table-column field="edit" v-slot="props">
         <b-button @click="() => updateUser(props.row)" type="is-success">Save</b-button>
-        <b-button v-show="props.row.isEdit" @click="props.row.isEdit = true" type="is-danger">Delete</b-button>
+        <b-button @click="() => deleteUser(props.row)" type="is-danger">Delete</b-button>
       </b-table-column>
 
       <template #empty>
@@ -95,9 +95,17 @@ export default {
     async updateUser(user) {
       try {
         await axios.put('/user/' + user.uuid, {
-          name: user.newName,
-          age: user.newAge
+          name: user.name,
+          age: user.age
         });
+        await this.getUsers();
+      } catch (error) {
+        console.error('error here', error);
+      }
+    },
+    async deleteUser(user) {
+      try {
+        await axios.delete('/user/' + user.uuid);
         await this.getUsers();
       } catch (error) {
         console.error('error here', error);
