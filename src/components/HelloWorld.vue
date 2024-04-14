@@ -113,13 +113,7 @@ export default {
     },
   },
   async mounted() {
-    try {
-      const response = await axios.get('/user');
-      console.log('users are here', response);
-      this.users = response.data;
-    } catch (error) {
-      console.error('error here', error);
-    }
+    await this.getUsers();
   }
 }
 </script>
